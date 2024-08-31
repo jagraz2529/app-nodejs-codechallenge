@@ -1,0 +1,19 @@
+## Local installation conventional uncomment ##
+; DATABASE_HOST=localhost
+; KAFKA_BROKER=localhost:29092
+## Local installation conventional ##
+
+## Local installation docker uncomment ##
+DATABASE_HOST=database
+KAFKA_BROKER=kafka:9092
+## Local installation docker ##
+
+DATABASE_PORT=5432
+DATABASE_USER=yappe-admin
+DATABASE_PASSWORD=1234
+DATABASE_NAME=yape
+ALGORITHM=RS256
+ACCESS_TOKEN_EXPIRY=600s
+KAFKA_CLIENT=backend-yape
+KAFKA_CONSUMER=backend-yape-consumer
+PORT=4000
