@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "4ef0d3f3-e268-4e5b-8319-074869d23f68",
+		"name": "YAPE-CHALLENGE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "3012060"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"if (responseCode.code == 200) {",
+									"",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable(\"access_token\", jsonData.data.authenticateUser.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followOriginalHttpMethod": true,
+						"followAuthorizationHeader": false,
+						"removeRefererHeaderOnRedirect": false,
+						"disableCookies": false,
+						"tlsPreferServerCiphers": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation authenticateUser($input: AuthInput!) {\n  authenticateUser(input: $input) {\n    access_token\n  }\n}",
+								"variables": "{\n  \"input\": {\n    \"username\" : \"joseagraz29@gmail.com\",\n    \"password\" : \"Passw*123\"\n  }\n}"
+							}
+						},
+						"url": "{{BASE_URL}}/auths/refresh"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getUsers {\n  getUsers {\n    id\n    name\n    email\n    username\n    gender\n    birthday\n    stripeCostumerId\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{BASE_URL}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Card",
+			"item": [
+				{
+					"name": "Get all cards",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getAllUserCards {\n  getAllUserCards {\n    id\n    stripePaymentMethodId\n    brand\n    last4\n    funding\n    exp_month\n    exp_year\n    isActive\n    user {\n      id\n      name\n      email\n      username\n    }\n    cardType{\n        id\n        name\n        resource\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{BASE_URL}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all cards for user login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getCardsForLoginUser {\n  getCardsForLoginUser {\n    id\n    stripePaymentMethodId\n    brand\n    last4\n    funding\n    exp_month\n    exp_year\n    isActive\n    user {\n      id\n    }\n    cardType{\n        id\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{BASE_URL}}/auths/users/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Card Type",
+			"item": [
+				{
+					"name": "Get all card types",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getAllCardsTypes {\n  getAllCardsTypes {\n    id\n    name\n    resource\n    description\n    isActive\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{BASE_URL}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "New transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation newTransaction($input: NewTransactionInput!) {\n  newTransaction(input: $input) {\n    id\n    amount\n    status\n    user {\n        id\n        name\n        email\n        username\n    }\n    userCard {\n        id\n        stripePaymentMethodId\n        brand\n        last4\n        funding\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"input\": {\n    \"cardId\" : \"7bd4bcfc-7b81-4540-bb7b-b9c6007f62ea\",\n    \"amount\" : 750\n  }\n}"
+							}
+						},
+						"url": "{{BASE_URL}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation getTransactions($input: GetTransactionInput!) {\n  getTransactions(input: $input) {\n    id\n    amount\n    status\n    user {\n        id\n        name\n        email\n        username\n    }\n    userCard {\n        id\n        stripePaymentMethodId\n        brand\n        last4\n        funding\n        cardType{\n            id\n            name\n            resource\n        }\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"input\": {\n    \"transactionId\": \"1b4de815-0505-4d19-8882-74a29ca04d6d\",\n    \"cardId\": \"70f8f52d-318f-4785-a322-aff7a67e1490\",\n    \"amount\": 750,\n    \"cardTypeName\": \"Card credit\",\n    \"status\": \"approved\",\n    \"createdAt\": \"2024-08-30\"\n  }\n}"
+							}
+						},
+						"url": "{{BASE_URL}}"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
