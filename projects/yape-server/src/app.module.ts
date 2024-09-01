@@ -11,6 +11,7 @@ import { UserCardModule } from './user-cars/user-card.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { KafkaModule } from './kafka/kafka.module';
 import { CardTypeModule } from './card-type/card-type.module';
+import { UserBankAccountModule } from './user-bank-account/user-bank-account.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CardTypeModule } from './card-type/card-type.module';
     UsersModule,
     AuthsModule,
     UserCardModule,
+    UserBankAccountModule,
     TransactionModule,
     KafkaModule,
     CardTypeModule,

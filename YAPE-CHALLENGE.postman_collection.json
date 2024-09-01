@@ -164,6 +164,79 @@
 			]
 		},
 		{
+			"name": "User Bank Account",
+			"item": [
+				{
+					"name": "Get all bank account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getAllUserBankAccounts {\n  getAllUserBankAccounts {\n    id\n    stripePaymentMethodId\n    accountHolder\n    nameBank\n    country\n    last4\n    isActive\n    user {\n      id\n      name\n      email\n      username\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{BASE_URL}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all bank account for user login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getUserBankAccountsForLoginUser {\n  getUserBankAccountsForLoginUser {\n    id\n    stripePaymentMethodId\n    accountHolder\n    nameBank\n    country\n    last4\n    isActive\n    user {\n      id\n      name\n      email\n      username\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{BASE_URL}}/auths/users/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Card Type",
 			"item": [
 				{
@@ -231,8 +304,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation newTransaction($input: NewTransactionInput!) {\n  newTransaction(input: $input) {\n    id\n    amount\n    status\n    user {\n        id\n        name\n        email\n        username\n    }\n    userCard {\n        id\n        stripePaymentMethodId\n        brand\n        last4\n        funding\n    }\n    createdAt\n    updatedAt\n  }\n}",
-								"variables": "{\n  \"input\": {\n    \"cardId\" : \"7bd4bcfc-7b81-4540-bb7b-b9c6007f62ea\",\n    \"amount\" : 750\n  }\n}"
+								"query": "mutation newTransaction($input: NewTransactionInput!) {\n  newTransaction(input: $input) {\n    id\n    amount\n    type\n    status\n    user {\n        id\n        name\n        email\n        username\n    }\n    userCard {\n        id\n        stripePaymentMethodId\n        brand\n        last4\n        funding\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"input\": {\n    \"accountExternalIdDebit\" : \"f866232a-b2a1-4059-b020-27fecad14d27\",\n    // \"accountExternalIdCredit\" : \"abbe3cb6-45b5-4c34-ae83-d3e50b4e94aa\",\n    // \"tranferTypeId\": \"be0b783e-7cdf-431b-b7fa-f83e9dc18a28\",\n    \"value\" : 750\n  }\n}"
 							}
 						},
 						"url": "{{BASE_URL}}"
@@ -265,8 +338,8 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation getTransactions($input: GetTransactionInput!) {\n  getTransactions(input: $input) {\n    id\n    amount\n    status\n    user {\n        id\n        name\n        email\n        username\n    }\n    userCard {\n        id\n        stripePaymentMethodId\n        brand\n        last4\n        funding\n        cardType{\n            id\n            name\n            resource\n        }\n    }\n    createdAt\n    updatedAt\n  }\n}",
-								"variables": "{\n  \"input\": {\n    \"transactionId\": \"1b4de815-0505-4d19-8882-74a29ca04d6d\",\n    \"cardId\": \"70f8f52d-318f-4785-a322-aff7a67e1490\",\n    \"amount\": 750,\n    \"cardTypeName\": \"Card credit\",\n    \"status\": \"approved\",\n    \"createdAt\": \"2024-08-30\"\n  }\n}"
+								"query": "mutation getTransactions($input: GetTransactionInput!) {\n  getTransactions(input: $input) {\n    id\n    amount\n    type\n    status\n    user {\n        id\n        name\n        email\n        username\n    }\n    userCard {\n        id\n        stripePaymentMethodId\n        brand\n        last4\n        funding\n        cardType{\n            id\n            name\n            resource\n        }\n    }\n    userBankAccount {\n        id\n        stripePaymentMethodId\n        accountHolder\n        nameBank\n        country\n        last4\n        isActive\n    }\n    createdAt\n    updatedAt\n  }\n}",
+								"variables": "{\n  \"input\": {\n    // \"transactionExternalId\": \"5551899b-72f3-4c52-9895-af5238b57942\",\n    \"value\": 750,\n    \"transactionType\": {\n        \"name\": \"us_bank_account\"\n    },\n    \"transactionStatus\": {\n        \"name\": \"pending\"\n    },\n    \"cardTypeName\": \"Card credit\",\n    // \"cardId\": \"f866232a-b2a1-4059-b020-27fecad14d27\",\n    // \"bankAccountId\": \"be0b783e-7cdf-431b-b7fa-f83e9dc18a28\",\n    \"createdAt\": \"2024-08-30\"\n  }\n}"
 							}
 						},
 						"url": "{{BASE_URL}}"

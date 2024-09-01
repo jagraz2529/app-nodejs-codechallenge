@@ -14,7 +14,7 @@ export default class UserCardSeeder implements Seeder {
       {
         stripePaymentMethodId: 'card_1O08UyEK7WzxCFmHNF5BsS3U',
         brand: 'visa',
-        country: 'US',
+        country: 'USD',
         last4: 4242,
         funding: 'credit',
         exp_month: 12,
@@ -24,7 +24,7 @@ export default class UserCardSeeder implements Seeder {
       {
         stripePaymentMethodId: 'card_1O08X1EK7WzxCFmHfDnzAPeQ',
         brand: 'visa',
-        country: 'US',
+        country: 'USD',
         last4: 5556,
         funding: 'debit',
         exp_month: 12,

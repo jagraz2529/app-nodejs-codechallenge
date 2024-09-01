@@ -48,12 +48,27 @@ type UserCardDto {
   updatedAt: DateTime!
 }
 
+type UserBankAccountDto {
+  id: String!
+  stripePaymentMethodId: String!
+  accountHolder: String!
+  nameBank: String!
+  country: String!
+  last4: String!
+  isActive: String!
+  user: UserDTO
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type TransactionDto {
   id: String
   amount: Float
+  type: String
   status: String
   user: UserDTO
   userCard: UserCardDto
+  userBankAccount: UserBankAccountDto
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -62,6 +77,8 @@ type Query {
   getUsers: [UserDTO!]!
   getAllUserCards: [UserCardDto!]!
   getCardsForLoginUser: [UserCardDto!]!
+  getAllUserBankAccounts: [UserBankAccountDto!]!
+  getUserBankAccountsForLoginUser: [UserBankAccountDto!]!
   getAllCardsTypes: [CardTypeDto!]!
 }
 
@@ -77,15 +94,41 @@ input AuthInput {
 }
 
 input GetTransactionInput {
-  transactionId: String
-  amount: Float
+  transactionExternalId: String
   cardId: String
+  bankAccountId: String
   cardTypeName: String
-  status: String
+  value: Float
+  transactionType: TransactionType
+  transactionStatus: TransactionStatus
   createdAt: String
 }
 
+input TransactionType {
+  name: PaymentMethodType
+}
+
+enum PaymentMethodType {
+  card
+  google_pay
+  us_bank_account
+}
+
+input TransactionStatus {
+  name: StatusTransaction
+}
+
+enum StatusTransaction {
+  pending
+  processing
+  rejected
+  approved
+  succeeded
+}
+
 input NewTransactionInput {
-  cardId: String!
-  amount: Float!
+  accountExternalIdDebit: String
+  accountExternalIdCredit: String
+  tranferTypeId: String
+  value: Float!
 }

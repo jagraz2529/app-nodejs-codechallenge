@@ -36,4 +36,12 @@ export class StripeService {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }
   }
+
+  async getTransaction(id: string): Promise<any> {
+    try {
+      return await this.stripe.paymentIntents.retrieve(id);
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 }

@@ -17,7 +17,7 @@ export class TransactionController {
     @Ctx() context: KafkaContext,
   ): Promise<void> {
     const originalMessage = context.getMessage();
-    console.log(originalMessage.value);
+    // console.log(originalMessage.value);
     await this._transactionService.newTransaction(originalMessage.value);
   }
 }

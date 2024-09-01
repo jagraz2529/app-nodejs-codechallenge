@@ -4,6 +4,8 @@ import { IsNumber } from 'class-validator';
 import { UserEntity } from 'src/users/entity/user.entity';
 import { UserCardsEntity } from 'src/user-cars/entity/user-cards.entity';
 import { StatusTransaction } from 'src/common/constants/statusTransaction.constant';
+import { UserBankAccountEntity } from '../../user-bank-account/entity/user-bank-account.entity';
+import { PaymentMethodType } from '../../common/constants';
 
 @Entity({ name: 'transactions' })
 export class TransactionEntity extends AbstractEntity {
@@ -15,6 +17,14 @@ export class TransactionEntity extends AbstractEntity {
   })
   @IsNumber()
   amount: number;
+
+  @Column({
+    type: 'enum',
+    enum: PaymentMethodType,
+    nullable: false,
+    default: PaymentMethodType.CARD,
+  })
+  type: PaymentMethodType;
 
   @Column({
     type: 'enum',
@@ -34,7 +44,18 @@ export class TransactionEntity extends AbstractEntity {
     (userCard: UserCardsEntity) => userCard.transaction,
     {
       onDelete: 'CASCADE',
+      nullable: true,
     },
   )
   userCard?: UserCardsEntity;
+
+  @ManyToOne(
+    () => UserBankAccountEntity,
+    (userBankAccount: UserBankAccountEntity) => userBankAccount.transaction,
+    {
+      onDelete: 'CASCADE',
+      nullable: true,
+    },
+  )
+  userBankAccount?: UserBankAccountEntity;
 }

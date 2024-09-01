@@ -3,6 +3,7 @@ import { runSeeders, Seeder, SeederFactoryManager } from 'typeorm-extension';
 import UserSeeder from './seeds/user.seeder';
 import UserCardSeeder from './seeds/user-card.seeder';
 import CardTypeSeeder from './seeds/card-type.seeder';
+import UserBankAccountSeeder from './seeds/user-bank-account.seeder';
 
 export default class InitSeeder implements Seeder {
   public async run(
@@ -10,7 +11,12 @@ export default class InitSeeder implements Seeder {
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
     await runSeeders(dataSource, {
-      seeds: [UserSeeder, CardTypeSeeder, UserCardSeeder],
+      seeds: [
+        UserSeeder,
+        CardTypeSeeder,
+        UserCardSeeder,
+        UserBankAccountSeeder,
+      ],
       // factories: [userFactory],
     });
   }

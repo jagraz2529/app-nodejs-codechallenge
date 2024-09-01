@@ -4,6 +4,7 @@ import { IsDate, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { Gender } from 'src/common/constants/gender.constant';
 import { UserCardsEntity } from 'src/user-cars/entity/user-cards.entity';
 import { TransactionEntity } from '../../transaction/entity/transaction.entity';
+import { UserBankAccountEntity } from "../../user-bank-account/entity/user-bank-account.entity";
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity {
@@ -57,6 +58,12 @@ export class UserEntity extends AbstractEntity {
     (userCards: UserCardsEntity) => userCards.user,
   )
   userCards: UserCardsEntity[];
+
+  @OneToMany(
+    () => UserBankAccountEntity,
+    (userBankAccounts: UserBankAccountEntity) => userBankAccounts.user,
+  )
+  userBankAccounts: UserBankAccountEntity[];
 
   @OneToMany(
     () => TransactionEntity,

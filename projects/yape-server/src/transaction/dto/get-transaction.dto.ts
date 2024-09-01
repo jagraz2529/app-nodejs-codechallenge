@@ -2,6 +2,7 @@ import { ObjectType, Field, GraphQLISODateTime } from '@nestjs/graphql';
 import { StatusTransaction } from 'src/common/constants/statusTransaction.constant';
 import { UserDTO } from 'src/users/dto/user.dto';
 import { UserCardDto } from 'src/user-cars/dto/user-card.dto';
+import { UserBankAccountDto } from '../../user-bank-account/dto/user-bank-account.dto';
 
 @ObjectType()
 export class GetTransactionDto {
@@ -19,6 +20,9 @@ export class GetTransactionDto {
 
   @Field(() => UserCardDto, { nullable: true })
   readonly userCard: UserCardDto;
+
+  @Field(() => UserBankAccountDto, { nullable: true })
+  readonly userBankAccount: UserBankAccountDto;
 
   @Field(() => GraphQLISODateTime)
   readonly createdAt: string;

@@ -3,8 +3,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export function setupSwagger(app: INestApplication): void {
   const options = new DocumentBuilder()
-    .setTitle('Choppi API')
-    .setDescription('Detailed API documentation, for the Choppi')
+    .setTitle('Yape API')
+    .setDescription('Detailed API documentation, for the Yape')
     .setVersion('1.0')
     .addBearerAuth(
       {
@@ -18,8 +18,6 @@ export function setupSwagger(app: INestApplication): void {
       'token',
     )
     .addTag('Home')
-    .addTag('Auths')
-    .addTag('Users')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
